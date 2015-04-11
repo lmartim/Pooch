@@ -1,0 +1,7 @@
+# view AndroidManifest.xml #generated:6
+-keep class com.azuredog.dog.Pooch { <init>(...); }
+
+# view AndroidManifest.xml #generated:13
+# view AndroidManifest.xml #generated:15
+-keep class com.google.android.gms.ads.AdActivity { <init>(...); }
+

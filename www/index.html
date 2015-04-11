@@ -1,0 +1,358 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+	<title>Dog Project</title>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(380, 214, Phaser.CANVAS, '', { preload: preload, create: create, update: update, render: render });
+
+var streets, streets3, street2, street1;
+var treeg, tree, treex;
+var cloudg, cloud, cloudx, cloudy, cloudz;
+var dog;
+var collision;
+var cans, can1;
+var score = 0, highScore;
+var scoreText, highScoreText, dev, mus, thx, thx2, title, start;
+var gameOver;
+var flag = 2;
+var flag_lata = false;
+var y = 0;
+
+function preload() {
+	game.load.image('clouds', 'assets/sprites/cloud.png');
+	game.load.image('street', 'assets/sprites/grass.png');
+	game.load.image('trash', 'assets/sprites/trash.png');
+	game.load.image('trees', 'assets/sprites/new_tree.png');
+	game.load.spritesheet('dog', 'assets/sprites/dog.png', 51, 48);
+	game.load.image('collision', 'assets/sprites/col.png');
+
+	game.load.audio('jump', 'assets/sfx/jump.wav');
+	game.load.audio('hit', 'assets/sfx/hit.wav');
+	game.load.audio('point', 'assets/sfx/point.wav');
+	game.load.audio('bgmusic', 'assets/music/pooch.mp3');
+}
+ 
+function create(){
+	
+	game.physics.startSystem(Phaser.Physics.ARCADE);
+
+	game.stage.backgroundColor = '#77c7ee';
+		
+	title = game.add.text(130,35, "Pooch", { font: '32px Arial', fill: '#000'});
+	start = game.add.text(145,75, "Tap to start", { font: '12px Arial', fill: '#000'});
+	
+	creation();
+	
+}
+ 
+function update(){
+
+	var cursors = game.input.keyboard.createCursorKeys();
+
+	game.physics.arcade.collide(dog, collision);
+
+	game.physics.arcade.collide(cans, collision);
+	
+	game.physics.arcade.collide(streets, treeg);
+
+	if(flag==0){
+
+		grassRespec();
+	
+		if(cloud.body.x <=-70){
+			cloud.body.x = 400 + Math.floor((Math.random()* 100) + 1);
+			cloud.body.y = 0 + Math.floor((Math.random() * 75) + 0);
+		}
+		
+		if(cloudx.body.x <=-70){
+			cloudx.body.x = 410 + Math.floor((Math.random()* 100) + 1);
+			cloudx.body.y = 0 + Math.floor((Math.random() * 65) + 0);
+		}
+		
+		if(cloudy.body.x <=-70){
+			cloudy.body.x = 430 + Math.floor((Math.random()* 100) + 1);
+			cloudy.body.y = 0 + Math.floor((Math.random() * 30) + 0);
+		}
+		
+		if(cloudz.body.x <=-70){
+			cloudz.body.x = 440 + Math.floor((Math.random()* 100) + 1);
+			cloudz.body.y = 0 + Math.floor((Math.random() * 50) + 0);
+		}
+
+		if(can1.body.x <= -50 ){
+			can1.body.x = 380 + y;
+			score += 10;
+			point_sfx.play();
+			scoreText.text = "Score: " + score ;
+		}
+		
+		if(tree.body.x <= -100){
+			tree.body.x = 400 + Math.floor((Math.random() * 100) + 1);
+		}
+		
+		if(treex.body.x <= -100){
+			treex.body.x = 400 + Math.floor((Math.random() * 100) + 1);
+		}
+
+		if((dog.body.touching.down)&&(dog.body.position.x <100)){
+			if((game.input.pointer1.isDown) || (cursors.up.isDown)){
+				jump_sfx.play();
+				dog.body.velocity.y = - 190;
+			}
+		}
+
+		if(dog.body.velocity.y == 0 && dog.frame != 2){
+			dog.animations.play('run');	
+		}else{
+			dog.frame = 0;
+		}
+
+		if(street1.body.velocity.x <= -300)
+		{
+			if((Math.floor((Math.random() * 150) + 1) < 5)){
+				street1.body.velocity.x = -150;
+				street2.body.velocity.x = -150;
+				street3.body.velocity.x = -150;
+				can1.body.velocity.x = street1.body.velocity.x;
+			}
+		}
+		else
+		{
+			street1.body.velocity.x = street1.body.velocity.x-.1;
+			street2.body.velocity.x = street2.body.velocity.x-.1;
+			street3.body.velocity.x = street3.body.velocity.x-.1;
+			can1.body.velocity.x = street1.body.velocity.x;
+		}
+
+		if (game.physics.arcade.collide(dog, can1)){
+			hit_sfx.play();
+			flag = 1;
+			dog.animations.stop();
+			dog.frame = 2;
+			street1.body.velocity.x = 0;
+			street2.body.velocity.x = 0;
+			street3.body.velocity.x = 0;
+			cloud.body.velocity.x = 0;
+			cloudx.body.velocity.x = 0;
+			cloudy.body.velocity.x = 0;
+			cloudz.body.velocity.x = 0;
+			can1.body.velocity.x = 0;
+			scoreFunc();
+			bg_music.stop();
+			gameOver = game.add.text(108,65, "Tap to restart", { fontSize: '32px', fill: '#000'});
+			dev = game.add.text(210,00, "Developer: Lucas Martim", { font:"10px Arial", fill: '#000'});
+			mus = game.add.text(210,10, "Music: João Zanini", { font:"10px Arial", fill: '#000'});
+			thx1 = game.add.text(210,20, "Special Thanks: David 'Wong' Souza ", { font:"10px Arial", fill: '#000'});
+			thx2 = game.add.text(287,30, "Felipe 'Felis' Freitas", { font:"10px Arial", fill: '#000'});
+			if(dog.body.velocity.y > 0){
+				dog.body.velocity.y = 0;
+			}
+		}		
+	}
+	if(flag == 1){
+		if((game.input.pointer1.isDown) || (cursors.right.isDown)){
+			restart();
+		}
+	}
+	if(flag==2){
+		dog.animations.play('run');	
+	
+		grassRespec();
+		
+		if( (game.input.pointer1.isDown) || (cursors.up.isDown) ){
+			flag = 0;
+			title.destroy();
+			start.destroy();
+			dog.destroy();
+	
+			gamePlay();
+			
+		}
+	}
+}
+
+function restart(){
+	street1.destroy();
+	street2.destroy();
+	street3.destroy();
+	can1.destroy();
+	tree.destroy();
+	treex.destroy();
+	cloud.destroy();
+	cloudx.destroy();
+	cloudy.destroy();
+	cloudz.destroy();
+	dog.destroy();
+	scoreText.destroy();
+	gameOver.destroy();
+	highScoreText.destroy();
+	dev.destroy();
+	mus.destroy();
+	thx1.destroy();
+	thx2.destroy();
+
+	creation();
+	flag = 0;
+	score = 0;
+	flag_lata = false;
+}
+
+function creation(){
+	this.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
+	this.game.scale.setScreenSize();
+	this.game.scale.refresh();
+	
+	//Criação das ruas
+	streets = game.add.group();
+
+	streets.enableBody = true;
+
+	street1 = streets.create(0, 182, 'street');
+	game.physics.arcade.enable(street1);
+	street1.body.immovable = true;
+	
+	street2 = streets.create(389, 182, 'street');
+	game.physics.arcade.enable(street2);
+	street2.body.immovable = true;
+
+	street3 = streets.create(779, 182, 'street');
+	game.physics.arcade.enable(street3);
+	street3.body.immovable = true;
+
+	cloudg = game.add.group();
+	cloudg.enbladeBody = true;
+		
+	treeg = game.add.group();
+	treeg.enableBody = true;
+	
+	//Criação das latas de lixo
+	cans = game.add.group();
+	cans.enableBody = true;	
+
+	//Criação do dog
+	if(flag==2)
+	{		
+		street1.body.velocity.x = -150;
+		street2.body.velocity.x = -150;
+		street3.body.velocity.x = -150;
+	
+		dog = game.add.sprite(145, 150, 'dog');
+		
+		dog.animations.add('run', [0, 1], 10, true);
+	}
+	else
+	{
+		gamePlay();
+	}
+	
+	//Criação da caixa que não deixa o dog vazar da tela
+	collision = game.add.sprite(0,197, 'collision');
+	game.physics.arcade.enable(collision);
+	collision.body.immovable = true;
+
+	jump_sfx = game.add.audio('jump');
+	hit_sfx = game.add.audio('hit');
+	point_sfx = game.add.audio('point');
+
+}
+
+function scoreFunc(){
+	
+	highScore = localStorage.getItem("HighScore");
+	if(score >= highScore){
+		localStorage.setItem("HighScore", score);
+	}
+	
+	highScore = localStorage.getItem("HighScore");	
+	highScoreText = game.add.text(2,18, "HighScore: " + highScore, { font: '16px Arial', fill: '#000'});
+	
+}
+
+function render(){
+	//game.debug.body(dog);
+}
+
+function gamePlay(){
+	bg_music = game.add.audio('bgmusic');
+	bg_music.play();
+
+	street1.body.velocity.x = -150;
+	street2.body.velocity.x = -150;
+	street3.body.velocity.x = -150;
+	street1.body.setSize(400, 36, 0, 0);
+	street2.body.setSize(400, 36, 0, 0);
+	street3.body.setSize(400, 36, 0, 0);	
+	
+	dog = game.add.sprite(45, 150, 'dog');
+	dog.animations.add('run', [0, 1], 10, true);
+			
+	game.physics.arcade.enable(dog);
+	dog.body.setSize(35, 48, 5, 0);
+			
+	dog.body.gravity.y = 300;
+	dog.body.collideWorldBounds = true;
+						
+	can1 = cans.create(430, 150, 'trash');
+	//game.physics.arcade.enable(can1);
+	//can1.body.gravity.y = 300;
+	can1.body.velocity.x = street1.body.velocity.x;
+			
+	tree = treeg.create(100+Math.floor((Math.random() * 100) + 1), 24, "trees");
+	game.physics.arcade.enable(tree);
+	tree.body.gravity.y = 300;
+	tree.body.setSize(106, 160, 0, 0);
+			
+	treex = treeg.create(400+Math.floor((Math.random() * 100) + 1), 24, "trees");
+	game.physics.arcade.enable(treex);
+	treex.body.gravity.y = 300;
+	treex.body.setSize(106, 160, 0, 0);
+			
+	cloud = cloudg.create(20+Math.floor((Math.random() * 100) + 1), 00+ Math.floor((Math.random() * 50) + 0), 'clouds');	
+	game.physics.arcade.enable(cloud);		
+	cloud.body.velocity.x = street1.body.velocity.x;
+		
+	cloudx = cloudg.create(80+Math.floor((Math.random() * 100) + 1), 0+ Math.floor((Math.random() * 50) + 0), 'clouds');	
+	game.physics.arcade.enable(cloudx);		
+	cloudx.body.velocity.x = street1.body.velocity.x;	
+		
+	cloudy = cloudg.create(167+Math.floor((Math.random() * 100) + 1), 0+ Math.floor((Math.random() * 50) + 0), 'clouds');	
+	game.physics.arcade.enable(cloudy);		
+	cloudy.body.velocity.x = street1.body.velocity.x;	
+		
+	cloudz = cloudg.create(290+Math.floor((Math.random() * 100) + 1), 0+ Math.floor((Math.random() * 50) + 0), 'clouds');	
+	game.physics.arcade.enable(cloudz);		
+	cloudz.body.velocity.x = street1.body.velocity.x;		
+		
+	scoreText = game.add.text(2,2, 'Score: 0', { font: '16px Arial', fill: '#000'});
+}
+
+function grassRespec(){
+	if(street1.body.x <= -390){
+		street1.body.x = 778;
+	}
+	
+	if(street2.body.x <= -390){
+		street2.body.x = 778;
+	}
+
+	if(street3.body.x <= -390){
+		street3.body.x = 778;
+	}
+}
+
+
+</script>
+
+</body>
+</html>

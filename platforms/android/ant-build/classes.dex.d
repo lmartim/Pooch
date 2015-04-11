@@ -1,0 +1,20 @@
+c:\Projetos\pooch\platforms\android\ant-build\classes.dex : \
+c:\Projetos\pooch\platforms\android\ant-build\classes\com\azuredog\dog\BuildConfig.class \
+c:\Projetos\pooch\platforms\android\ant-build\classes\com\azuredog\dog\Pooch.class \
+c:\Projetos\pooch\platforms\android\ant-build\classes\com\azuredog\dog\R$attr.class \
+c:\Projetos\pooch\platforms\android\ant-build\classes\com\azuredog\dog\R$drawable.class \
+c:\Projetos\pooch\platforms\android\ant-build\classes\com\azuredog\dog\R$integer.class \
+c:\Projetos\pooch\platforms\android\ant-build\classes\com\azuredog\dog\R$string.class \
+c:\Projetos\pooch\platforms\android\ant-build\classes\com\azuredog\dog\R$xml.class \
+c:\Projetos\pooch\platforms\android\ant-build\classes\com\azuredog\dog\R.class \
+c:\Projetos\pooch\platforms\android\ant-build\classes\com\rjfun\cordova\admob\AdMobMediation.class \
+c:\Projetos\pooch\platforms\android\ant-build\classes\com\rjfun\cordova\admob\AdMobPlugin$1.class \
+c:\Projetos\pooch\platforms\android\ant-build\classes\com\rjfun\cordova\admob\AdMobPlugin$BannerListener.class \
+c:\Projetos\pooch\platforms\android\ant-build\classes\com\rjfun\cordova\admob\AdMobPlugin$InterstitialListener.class \
+c:\Projetos\pooch\platforms\android\ant-build\classes\com\rjfun\cordova\admob\AdMobPlugin.class \
+c:\Projetos\pooch\platforms\android\ant-build\classes\com\rjfun\cordova\ext\CordovaPluginExt.class \
+c:\Projetos\pooch\platforms\android\ant-build\classes\com\rjfun\cordova\ext\PluginAdapterDelegate.class \
+c:\Projetos\pooch\platforms\android\ant-build\classes\org\apache\cordova\device\Device.class \
+c:\Projetos\pooch\platforms\android\ant-build\dexedLibs\classes-bee4f79f214f340fbdf778df46c94517.jar \
+c:\Projetos\pooch\platforms\android\ant-build\dexedLibs\google-play-services-32d56161d95e4c033a3d6bca750b6650.jar \
+c:\Projetos\pooch\platforms\android\ant-build\dexedLibs\cordova-generic-ad-27460bb7c15e6c730add5c3b460bb6ea.jar \
